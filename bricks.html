@@ -3,7 +3,6 @@
 	<style>
 		canvas{ 
 			background: #eee; 
-			justify-content: justify;
 			border: black solid 1px;
 		}
 	</style>
@@ -12,7 +11,6 @@
 		<canvas id="myCanvas" width="700" height="700"></canvas>
 		
 	<script type="application/javascript">
-
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
 		var x = canvas.width/2;
@@ -20,9 +18,42 @@
 		var dx = 2;
 		var dy = -2;
 		var ballColor = "green" //barva žoge
+		var ballRadius = 11; //velikost žoge
 		
-		var ballRadius = 11; //
+		//plošček
+		var paddlex;
+		var paddleh;
+		var paddlew;
 
+
+		function init_paddle() {
+		  paddlex = WIDTH / 2;
+		  paddleh = 10;
+		  paddlew = 75;
+		}
+
+		function draw() {
+		  clear();
+		  circle(x, y, 10);
+		  rect(paddlex, HEIGHT-paddleh, paddlew, paddleh);
+
+		  if (x + dx > WIDTH-r || x + dx < 0+r)
+			dx = -dx;
+
+		  if (y + dy < 0+r)
+			dy = -dy;
+		  else if (y + dy > HEIGHT-r) {
+			if (x > paddlex && x < paddlex + paddlew)
+			  dy = -dy;
+			else
+			  clearInterval(intervalId);
+		  }
+
+		  x += dx;
+		  y += dy;
+		}
+		init_paddle();
+	
 		function drawBall() {
 			ctx.beginPath();
 			ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -31,24 +62,9 @@
 			ctx.closePath();
 		}
 		
-		
-
-		function draw() {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			drawBall();
-			x += dx;
-			y += dy;
-			
-			if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-				dx = -dx;
-			}
-			if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-				dy = -dy;
-			}
-		}
 
 		setInterval(draw, 10); //hitrost odbijanja
-
+		
 	</script>		
 		
 	</body>
