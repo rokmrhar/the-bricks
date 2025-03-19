@@ -1,0 +1,55 @@
+<html>
+<head>
+	<style>
+		canvas{ 
+			background: #eee; 
+			justify-content: justify;
+			border: black solid 1px;
+		}
+	</style>
+</head>
+	<body onload="draw()">
+		<canvas id="myCanvas" width="700" height="700"></canvas>
+		
+	<script type="application/javascript">
+
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		var x = canvas.width/2;
+		var y = canvas.height-30;
+		var dx = 2;
+		var dy = -2;
+		var ballColor = "green" //barva žoge
+		
+		var ballRadius = 11; //
+
+		function drawBall() {
+			ctx.beginPath();
+			ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+			ctx.fillStyle = ballColor; //"#0095DD"
+			ctx.fill();
+			ctx.closePath();
+		}
+		
+		
+
+		function draw() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			drawBall();
+			x += dx;
+			y += dy;
+			
+			if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+				dx = -dx;
+			}
+			if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+				dy = -dy;
+			}
+		}
+
+		setInterval(draw, 10); //hitrost odbijanja
+
+	</script>		
+		
+	</body>
+</html>
