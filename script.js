@@ -82,7 +82,7 @@ var canvas = document.getElementById("canvas");
                             b.status = 0;
                             score++;
                             if (score == brickRowCount * brickColumnCount) {
-                                alert("ZMAGA");
+                                alert("ZMAGAL SI");
                                 
                             }
                         }
@@ -109,7 +109,7 @@ var canvas = document.getElementById("canvas");
                     dy = -dy;
                 } else {
                     alert("IZGUBIL SI");
-                    document.location.reload();
+                     location.reload(true);
                 }
             }
 
@@ -149,5 +149,11 @@ var canvas = document.getElementById("canvas");
         setInterval(draw, 10);
 		
 		start.addEventListener("click", () => {
-			
+		const start = document.getElementById("start");
+			function handleClick() {
+			  draw();
+			}
+
+		start.addEventListener("click", handleClick);
+
 		});
