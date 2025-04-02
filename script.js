@@ -23,13 +23,6 @@ var score = 0;
 var gameRunning = false;
 var animationId = null;
 var bricks = [];
-var sekunde;
-var sekundeI;
-var minuteI;
-var intTimer;
-var izpisTimer;
-
-
 
 function initBricks() {
     bricks = [];
@@ -46,12 +39,16 @@ function resetGame() {
         cancelAnimationFrame(animationId);
         animationId = null;
     }
+	if (intTimer) {
+        clearInterval(intTimer);
+    }
     x = initialX;
     y = initialY;
     dx = initialDx;
     dy = initialDy;
     paddleX = initialPaddleX;
     score = 0;
+	sekunde = 0;
     gameRunning = false;
     initBricks();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -64,8 +61,10 @@ function resetGame() {
 function startGame() {
     if (!gameRunning) {
         resetGame(); 
+		intTimer = setInterval(timer, 1000);
         gameRunning = true;
         draw(); 
+		timer();
     }
 }
 function drawBall() {
@@ -99,21 +98,25 @@ function drawBricks() {
         }
     }
 }
-function timer(){
-sekunde++;
+var sekunde;
+var sekundeI;
+var minuteI;
+var intTimer;
+var izpisTimer;
+//timer
+function timer() {
 
-sekundeI = ((sekundeI = (sekunde % 60)) > 9) ? sekundeI : "0"+sekundeI;
-minuteI = ((minuteI = Math.floor(sekunde / 60)) > 9) ? minuteI : "0"+minuteI;
+
+sekundeI = (sekunde % 60 > 9) ? sekunde % 60 : "0" + (sekunde % 60);
+minuteI = (Math.floor(sekunde / 60) > 9) ? Math.floor(sekunde / 60) : "0" + Math.floor(sekunde / 60);
 izpisTimer = minuteI + ":" + sekundeI;
-
-$("#cas").html(izpisTimer);
+sekunde++;
 }
 function drawScore() {
+
     ctx.font = "16px Arial";
     ctx.fillStyle = "green";
-    ctx.fillText("REZULTAT: " + score, 8, 20);
-	
-	ctx.fillText("Score: " + score + "  Time: " + izpisTimer, 8, 20);
+    ctx.fillText("TOČKE: " + score + "  " + "  ČAS: " + izpisTimer, 8, 20);
 }
 function collisionDetection() {
     for (var c = 0; c < brickColumnCount; c++) {
@@ -186,8 +189,17 @@ document.addEventListener("keyup", function(e) {
         leftPressed = false;
     }
 });
-
-
+const infoBtn = document.getElementById("info");
+infoBtn.addEventListener("click", () => {
+    Swal.fire({
+        icon: "info",
+        title: "Igra The Bricks",
+        text: "",
+        heightAuto: true,
+		footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
+        /*footer: '<img src="github.png"></img><a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'*/
+    });
+});
 document.getElementById("start").addEventListener("click", startGame);
 document.getElementById("reset").addEventListener("click", resetGame);
 

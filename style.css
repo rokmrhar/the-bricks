@@ -2,6 +2,7 @@
 	margin:0;
 	padding:0;
 	font-family: Arial;
+	background-image: url("/bricks/ozadje.jpg")
 }
 canvas{ 
 	background: #eee; 
@@ -13,21 +14,31 @@ canvas{
 	justify-content: center;
     align-items: center;
 }
+.naslov{
+	text-align: center;
+	margin: 10px 10px;
+}
 .controls{
 	padding: 30px;
 	font-size: 14px;
 	text-transform: uppercase;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 	
 }
 button{
-	padding: 10px 22px;
+	padding: 12px 32px;
 	border-radius: 5px;
 	border: none;
 	background-color: #008000;
 	color: white;
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: bold;
 }
 button:hover{
 	background-color: #339933;
+}
+swal-footer{
+	
 }
