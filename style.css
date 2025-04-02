@@ -2,7 +2,11 @@
 	margin:0;
 	padding:0;
 	font-family: Arial;
-	background-image: url("/bricks/ozadje.jpg")
+}
+body{
+	background-image: url("https://rokmrhar.github.io/the-bricks/ozadje.jpg");
+	background-size: cover;
+    background-position: contain;
 }
 canvas{ 
 	background: #eee; 
@@ -14,9 +18,13 @@ canvas{
 	justify-content: center;
     align-items: center;
 }
+
 .naslov{
 	text-align: center;
 	margin: 10px 10px;
+	font-size: 40px;
+	color:grey;
+	font-weight: bold;
 }
 .controls{
 	padding: 30px;
