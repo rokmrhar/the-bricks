@@ -1,7 +1,7 @@
 *{
 	margin:0;
 	padding:0;
-	
+	font-family: Arial;
 }
 canvas{ 
 	background: #eee; 
@@ -14,8 +14,20 @@ canvas{
     align-items: center;
 }
 .controls{
-	padding: 10px;
+	padding: 30px;
 	font-size: 14px;
 	text-transform: uppercase;
 	
+}
+button{
+	padding: 10px 22px;
+	border-radius: 5px;
+	border: none;
+	background-color: #008000;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}
+button:hover{
+	background-color: #339933;
 }
