@@ -1,7 +1,8 @@
 *{
+	font-family: 'Treasure Map Deadhand', sans-serif;
 	margin:0;
 	padding:0;
-	font-family: Arial;
+	letter-spacing: 2px;
 }
 body{
 	background-image: url("https://rokmrhar.github.io/the-bricks/ozadje.jpg");
@@ -20,11 +21,13 @@ canvas{
 }
 
 .naslov{
+	font-family: "Pirata One", system-ui;
 	text-align: center;
 	margin: 10px 10px;
 	font-size: 40px;
-	color:grey;
+	color: #fefce7;
 	font-weight: bold;
+	-webkit-text-stroke: 0.5px #3d2f45;
 }
 .controls{
 	padding: 30px;
@@ -39,13 +42,13 @@ button{
 	padding: 12px 32px;
 	border-radius: 5px;
 	border: none;
-	background-color: #008000;
-	color: white;
+	background-color: #4B2E19;
+	color: #FFD700;
 	font-size: 20px;
 	font-weight: bold;
 }
 button:hover{
-	background-color: #339933;
+	background-color: #5E3A24;
 }
 swal-footer{
 	

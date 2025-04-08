@@ -1,13 +1,13 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var ballRadius = 10;
-var ballColor = "green";
+var ballColor = "#FFD700"; //barva žogice
 var paddleHeight = 10;
 var paddleWidth = 75;
 var brickRowCount = 6;
 var brickColumnCount = 5;
-var brickWidth = 80;
-var brickHeight = 20;
+var brickWidth = 70;
+var brickHeight = 50;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
@@ -23,6 +23,8 @@ var score = 0;
 var gameRunning = false;
 var animationId = null;
 var bricks = [];
+var brickImage = new Image();
+brickImage.src = "box.png";
 
 function initBricks() {
     bricks = [];
@@ -39,7 +41,7 @@ function resetGame() {
         cancelAnimationFrame(animationId);
         animationId = null;
     }
-	if (intTimer) {
+    if (typeof intTimer !== 'undefined') {
         clearInterval(intTimer);
     }
     x = initialX;
@@ -48,15 +50,16 @@ function resetGame() {
     dy = initialDy;
     paddleX = initialPaddleX;
     score = 0;
-	sekunde = 0;
+    sekunde = 0;
+    izpisTimer = "00:00";
     gameRunning = false;
     initBricks();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
 }
+
 
 function startGame() {
     if (!gameRunning) {
@@ -77,7 +80,7 @@ function drawBall() {
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#8B4513"; //barva ploščka
     ctx.fill();
     ctx.closePath();
 }
@@ -89,11 +92,7 @@ function drawBricks() {
                 var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "green";
-                ctx.fill();
-                ctx.closePath();
+                ctx.drawImage(brickImage, brickX, brickY, brickWidth, brickHeight);
             }
         }
     }
