@@ -205,7 +205,7 @@ window.onload = function () {
 Swal.fire({
         icon: "info",
         title: "Welcome",
-        text: "Press START button start the game. Use LEFT and RIGHT key to move the paddle.",
+        text: "Press START button to start the game. Use LEFT and RIGHT key to move the paddle.",
         heightAuto: true,
     });
 }
