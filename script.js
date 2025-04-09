@@ -114,7 +114,7 @@ function drawScore() {
 
     ctx.font = "16px Arial";
     ctx.fillStyle = "green";
-    ctx.fillText("TOČKE: " + score + "  " + "  ČAS: " + izpisTimer, 8, 20);
+    ctx.fillText("POINTS: " + score + "  " + "  TIME: " + izpisTimer, 8, 20);
 }
 function collisionDetection() {
     for (var c = 0; c < brickColumnCount; c++) {
@@ -127,7 +127,7 @@ function collisionDetection() {
                     score++;
                     if (score == brickRowCount * brickColumnCount) {
                         Swal.fire({
-						  title: "ZMAGAL SI!",
+						  title: "YOU WON!",
 						  icon: "success"
 						});
                         resetGame();
@@ -157,7 +157,7 @@ function draw() {
         } else {
             gameRunning = false;
             Swal.fire({
-			title: "IZGUBIL SI !",
+			title: "GAME OVER!",
 			icon: "warning"
 })
             resetGame();
@@ -192,10 +192,8 @@ infoBtn.addEventListener("click", () => {
     Swal.fire({
         icon: "info",
         title: "The Bricks",
-        text: "",
         heightAuto: true,
 		footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
-        /*footer: '<img src="github.png"></img><a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'*/
     });
 });
 document.getElementById("start").addEventListener("click", startGame);
@@ -207,7 +205,7 @@ window.onload = function () {
 Swal.fire({
         icon: "info",
         title: "Welcome",
-        text: "Instructions:",
+        text: "Press START button start the game. Use LEFT and RIGHT key to move the paddle.",
         heightAuto: true,
     });
 }
