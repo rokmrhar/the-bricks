@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var ballRadius = 10;
-var ballColor = "#FFD700"; //barva žogice
+var ballColor = "#FFD700"; //barva balke
 var paddleHeight = 10;
 var paddleWidth = 75;
 var brickRowCount = 6;
@@ -41,7 +41,7 @@ function resetGame() {
         cancelAnimationFrame(animationId);
         animationId = null;
     }
-    if (typeof intTimer !== 'undefined') {
+	if (intTimer) {
         clearInterval(intTimer);
     }
     x = initialX;
@@ -50,16 +50,15 @@ function resetGame() {
     dy = initialDy;
     paddleX = initialPaddleX;
     score = 0;
-    sekunde = 0;
-    izpisTimer = "00:00";
+	sekunde = 0;
     gameRunning = false;
     initBricks();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
 }
-
 
 function startGame() {
     if (!gameRunning) {
@@ -192,7 +191,7 @@ const infoBtn = document.getElementById("info");
 infoBtn.addEventListener("click", () => {
     Swal.fire({
         icon: "info",
-        title: "Igra The Bricks",
+        title: "The Bricks",
         text: "",
         heightAuto: true,
 		footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
@@ -203,3 +202,12 @@ document.getElementById("start").addEventListener("click", startGame);
 document.getElementById("reset").addEventListener("click", resetGame);
 
 resetGame();
+
+window.onload = function () {
+Swal.fire({
+        icon: "info",
+        title: "Welcome",
+        text: "Instructions:",
+        heightAuto: true,
+    });
+}

@@ -11,8 +11,8 @@ body{
 }
 canvas{ 
 	background: #eee; 
-	opacity: 0.5;
-	
+	opacity: 0.9;
+	z-index: 1;
 }
 .main{
 	margin-top: 20px;
