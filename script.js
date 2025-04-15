@@ -5,9 +5,9 @@ var ballColor = "#FFD700"; //barva balke
 var paddleHeight = 10; //velikost palce
 var paddleWidth = 75; //debelina palce
 var brickRowCount = 6;
-var brickColumnCount = 10;
-var brickWidth = 70; //širina balke
-var brickHeight = 50; //višina balke
+var brickColumnCount = 11;
+var brickWidth = 70; //širina slike
+var brickHeight = 50; //višina slike
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
@@ -31,7 +31,11 @@ function initBricks() {
     for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
-            bricks[c][r] = { x: 0, y: 0, status: 1 };
+            bricks[c][r] = { 
+			x: 0, 
+			y: 0, 
+			status: 1,
+			lives: 3};
         }
     }
 }
@@ -50,6 +54,7 @@ function resetGame() {
     dy = initialDy;
     paddleX = initialPaddleX;
     score = 0;
+	izpisTimer = "00:00";
 	sekunde = 0;
     gameRunning = false;
     initBricks();
@@ -66,6 +71,7 @@ function startGame() {
 		intTimer = setInterval(timer, 1000);
         gameRunning = true;
         draw(); 
+		drawBricks();
 		timer();
     }
 }
@@ -112,7 +118,7 @@ sekunde++;
 }
 function drawScore() {
 
-    ctx.font = "16px Arial";
+    ctx.font = "bold 19px Arial ";
     ctx.fillStyle = "green";
     ctx.fillText("POINTS: " + score + "  " + "  TIME: " + izpisTimer, 8, 20);
 }
@@ -123,13 +129,16 @@ function collisionDetection() {
             if (b.status == 1) {
                 if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
                     dy = -dy;
-                    b.status = 0;
+                    b.lives--; // Decrease lives
+                    if (b.lives <= 0) {
+                        b.status = 0; // Remove brick when lives are depleted
+                    }
                     score++;
                     if (score == brickRowCount * brickColumnCount) {
                         Swal.fire({
-						  title: "YOU WON!",
-						  icon: "success"
-						});
+                            title: "YOU WON!",
+                            icon: "success"
+                        });
                         resetGame();
                     }
                 }
