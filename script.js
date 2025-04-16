@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 var ballRadius = 10;
 var ballColor = "#FFD700"; //barva balke
 var paddleHeight = 10; //velikost palce
-var paddleWidth = 75; //debelina palce
+var paddleWidth = 75; //širina palce
 var brickRowCount = 6;
 var brickColumnCount = 11;
 var brickWidth = 70; //širina slike
@@ -23,8 +23,11 @@ var score = 0;
 var gameRunning = false;
 var animationId = null;
 var bricks = [];
-var brickImage = new Image();
-brickImage.src = "box.png";
+var brickImages = [
+	"box40.png",
+	"box75.png",
+	"box.png"
+];
 
 function initBricks() {
     bricks = [];
@@ -92,12 +95,15 @@ function drawPaddle() {
 function drawBricks() {
     for (var c = 0; c < brickColumnCount; c++) {
         for (var r = 0; r < brickRowCount; r++) {
-            if (bricks[c][r].status == 1) {
+            var b = bricks[c][r];
+            if (b.status == 1) {
                 var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
                 var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-                ctx.drawImage(brickImage, brickX, brickY, brickWidth, brickHeight);
+                b.x = brickX;
+                b.y = brickY;
+                var currentBrickImage = new Image();
+                currentBrickImage.src = brickImages[b.lives - 1];
+                ctx.drawImage(currentBrickImage, brickX, brickY, brickWidth, brickHeight);
             }
         }
     }
@@ -109,17 +115,14 @@ var intTimer;
 var izpisTimer;
 //timer
 function timer() {
-
-
 sekundeI = (sekunde % 60 > 9) ? sekunde % 60 : "0" + (sekunde % 60);
 minuteI = (Math.floor(sekunde / 60) > 9) ? Math.floor(sekunde / 60) : "0" + Math.floor(sekunde / 60);
 izpisTimer = minuteI + ":" + sekundeI;
 sekunde++;
 }
 function drawScore() {
-
     ctx.font = "bold 19px Arial ";
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#3d2f45";
     ctx.fillText("POINTS: " + score + "  " + "  TIME: " + izpisTimer, 8, 20);
 }
 function collisionDetection() {
@@ -129,9 +132,9 @@ function collisionDetection() {
             if (b.status == 1) {
                 if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
                     dy = -dy;
-                    b.lives--; // Decrease lives
+                    b.lives--; 
                     if (b.lives <= 0) {
-                        b.status = 0; // Remove brick when lives are depleted
+                        b.status = 0;
                     }
                     score++;
                     if (score == brickRowCount * brickColumnCount) {
@@ -196,6 +199,8 @@ document.addEventListener("keyup", function(e) {
         leftPressed = false;
     }
 });
+//const points = document.getElementByClass("points");
+
 const infoBtn = document.getElementById("info");
 infoBtn.addEventListener("click", () => {
     Swal.fire({
@@ -205,6 +210,7 @@ infoBtn.addEventListener("click", () => {
 		footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
     });
 });
+
 document.getElementById("start").addEventListener("click", startGame);
 document.getElementById("reset").addEventListener("click", resetGame);
 
@@ -214,7 +220,7 @@ window.onload = function () {
 Swal.fire({
         icon: "info",
         title: "Welcome",
-        text: "Press START button to start the game. Use LEFT and RIGHT key to move the paddle.",
+		html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b> and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
         heightAuto: true,
     });
 }
