@@ -20,19 +20,21 @@ canvas{
 
 }
 .points{
-	position: absolute;
-	height: auto;
-	width: auto;
-	right: 400px;
-	top: 13%;
-	padding: 10px;
-	display: flex;
-	font-size: 14px;
-	box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-	border: 1px solid #3d2f45;
-	border-radius: 5px;
-	background: #eee;
+    position: absolute;
+    height: auto;
+    width: auto;
+    right: 250px;
+    top: 13%;
+    padding: 10px;
+    display: flex;
+    font-size: 16px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid #3d2f45;
+    border-radius: 5px;
+	line-height: 1.8;
+    background: #eee;
 }
+
 .main{
 	margin-top: 20px;
 	display: flex;

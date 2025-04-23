@@ -2,19 +2,19 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var ballRadius = 10;
 var ballColor = "#FFD700"; //barva balke
-var paddleHeight = 10; //velikost palce
+var paddleHeight = 9; //višina palce
 var paddleWidth = 75; //širina palce
 var brickRowCount = 6;
 var brickColumnCount = 11;
-var brickWidth = 70; //širina slike
-var brickHeight = 50; //višina slike
+var brickWidth = 70; //širina kište
+var brickHeight = 50; //višina kište
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
 var initialX = canvas.width / 2;
 var initialY = canvas.height - 30;
-var initialDx = 2;
-var initialDy = -2;
+var initialDx = 3;
+var initialDy = -3;
 var initialPaddleX = (canvas.width - paddleWidth) / 2;
 var x, y, dx, dy, paddleX;
 var rightPressed = false;
@@ -24,9 +24,9 @@ var gameRunning = false;
 var animationId = null;
 var bricks = [];
 var brickImages = [
-	"box40.png",
-	"box75.png",
-	"box.png"
+    "box40.png",
+    "box75.png",
+    "box.png"
 ];
 
 function initBricks() {
@@ -35,10 +35,10 @@ function initBricks() {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
             bricks[c][r] = { 
-			x: 0, 
-			y: 0, 
-			status: 1,
-			lives: 3};
+            x: 0, 
+            y: 0, 
+            status: 1,
+            lives: 3};
         }
     }
 }
@@ -48,7 +48,7 @@ function resetGame() {
         cancelAnimationFrame(animationId);
         animationId = null;
     }
-	if (intTimer) {
+    if (intTimer) {
         clearInterval(intTimer);
     }
     x = initialX;
@@ -57,25 +57,23 @@ function resetGame() {
     dy = initialDy;
     paddleX = initialPaddleX;
     score = 0;
-	izpisTimer = "00:00";
-	sekunde = 0;
+    izpisTimer = "00:00";
+    sekunde = 0;
     gameRunning = false;
     initBricks();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
-    drawScore();
+    updatePointsAndTime(); 
 }
 
 function startGame() {
     if (!gameRunning) {
         resetGame(); 
-		intTimer = setInterval(timer, 1000);
+        intTimer = setInterval(timer, 1000);
         gameRunning = true;
         draw(); 
-		drawBricks();
-		timer();
     }
 }
 function drawBall() {
@@ -113,18 +111,22 @@ var sekundeI;
 var minuteI;
 var intTimer;
 var izpisTimer;
-//timer
+
 function timer() {
 sekundeI = (sekunde % 60 > 9) ? sekunde % 60 : "0" + (sekunde % 60);
 minuteI = (Math.floor(sekunde / 60) > 9) ? Math.floor(sekunde / 60) : "0" + Math.floor(sekunde / 60);
 izpisTimer = minuteI + ":" + sekundeI;
 sekunde++;
+updatePointsAndTime(); 
 }
-function drawScore() {
-    ctx.font = "bold 19px Arial ";
-    ctx.fillStyle = "#3d2f45";
-    ctx.fillText("POINTS: " + score + "  " + "  TIME: " + izpisTimer, 8, 20);
+
+function updatePointsAndTime() {
+    const pointsDiv = document.querySelector(".points");
+    pointsDiv.innerHTML = `<div style="margin-right: 5px;"><strong>POINTS:</strong> ${score}</div>
+                           <div><strong>TIME:</strong> ${izpisTimer}</div>`;
 }
+
+
 function collisionDetection() {
     for (var c = 0; c < brickColumnCount; c++) {
         for (var r = 0; r < brickRowCount; r++) {
@@ -137,6 +139,7 @@ function collisionDetection() {
                         b.status = 0;
                     }
                     score++;
+                    updatePointsAndTime(); 
                     if (score == brickRowCount * brickColumnCount) {
                         Swal.fire({
                             title: "YOU WON!",
@@ -149,6 +152,7 @@ function collisionDetection() {
         }
     }
 }
+
 function draw() {
     if (!gameRunning) return;
     
@@ -156,7 +160,6 @@ function draw() {
     drawBricks();
     drawBall();
     drawPaddle();
-    drawScore();
     collisionDetection();
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
@@ -169,8 +172,8 @@ function draw() {
         } else {
             gameRunning = false;
             Swal.fire({
-			title: "GAME OVER!",
-			icon: "warning"
+            title: "GAME OVER!",
+            icon: "warning"
 })
             resetGame();
             return;
@@ -199,7 +202,6 @@ document.addEventListener("keyup", function(e) {
         leftPressed = false;
     }
 });
-//const points = document.getElementByClass("points");
 
 const infoBtn = document.getElementById("info");
 infoBtn.addEventListener("click", () => {
@@ -207,7 +209,7 @@ infoBtn.addEventListener("click", () => {
         icon: "info",
         title: "The Bricks",
         heightAuto: true,
-		footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
+        footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
     });
 });
 
@@ -220,7 +222,7 @@ window.onload = function () {
 Swal.fire({
         icon: "info",
         title: "Welcome",
-		html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b> and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
+        html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
         heightAuto: true,
     });
 }
