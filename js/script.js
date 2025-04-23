@@ -222,7 +222,7 @@ window.onload = function () {
 Swal.fire({
         icon: "info",
         title: "Welcome",
-        html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
+        html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b> and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
         heightAuto: true,
     });
 }
