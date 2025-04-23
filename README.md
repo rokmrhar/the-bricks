@@ -1,6 +1,6 @@
 # The Bricks
 
-To je moja 4. projektna naloga. 
+4. projektna naloga. Igro sem izdelal s pomočjo HTML, CSS, JavaScripta. 
 
 April, 2025
 
