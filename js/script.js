@@ -1,228 +1,56 @@
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var ballRadius = 10;
-var ballColor = "#FFD700"; //barva balke
-var paddleHeight = 9; //višina palce
-var paddleWidth = 75; //širina palce
-var brickRowCount = 6;
-var brickColumnCount = 11;
-var brickWidth = 70; //širina kište
-var brickHeight = 50; //višina kište
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
-var initialX = canvas.width / 2;
-var initialY = canvas.height - 30;
-var initialDx = 3;
-var initialDy = -3;
-var initialPaddleX = (canvas.width - paddleWidth) / 2;
-var x, y, dx, dy, paddleX;
-var rightPressed = false;
-var leftPressed = false;
-var score = 0;
-var gameRunning = false;
-var animationId = null;
-var bricks = [];
-var brickImages = [
-    "img/box40.png",
-    "img/box75.png",
-    "img/box.png"
-];
-
-function initBricks() {
-    bricks = [];
-    for (var c = 0; c < brickColumnCount; c++) {
-        bricks[c] = [];
-        for (var r = 0; r < brickRowCount; r++) {
-            bricks[c][r] = { 
-            x: 0, 
-            y: 0, 
-            status: 1,
-            lives: 3};
-        }
-    }
+function reloadPage() {
+    location.href='igra.php';
 }
 
-function resetGame() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-    }
-    if (intTimer) {
-        clearInterval(intTimer);
-    }
-    x = initialX;
-    y = initialY;
-    dx = initialDx;
-    dy = initialDy;
-    paddleX = initialPaddleX;
-    score = 0;
-    izpisTimer = "00:00";
-    sekunde = 0;
-    gameRunning = false;
-    initBricks();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    updatePointsAndTime(); 
+function rezultati() {
+    location.href='konec.php';
 }
 
-function startGame() {
-    if (!gameRunning) {
-        resetGame(); 
-        intTimer = setInterval(timer, 1000);
-        gameRunning = true;
-        draw(); 
-    }
-}
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = ballColor;
-    ctx.fill();
-    ctx.closePath();
-}
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#8B4513"; //barva ploščka
-    ctx.fill();
-    ctx.closePath();
-}
-function drawBricks() {
-    for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-            var b = bricks[c][r];
-            if (b.status == 1) {
-                var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-                var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-                b.x = brickX;
-                b.y = brickY;
-                var currentBrickImage = new Image();
-                currentBrickImage.src = brickImages[b.lives - 1];
-                ctx.drawImage(currentBrickImage, brickX, brickY, brickWidth, brickHeight);
-            }
-        }
-    }
-}
-var sekunde;
-var sekundeI;
-var minuteI;
-var intTimer;
-var izpisTimer;
+setTimeout(function() {
+    document.getElementById('sestevek1').style.opacity = "1";}, 1250);
+setTimeout(function() {
+    document.getElementById('sestevek2').style.opacity = "1";}, 1250);
+setTimeout(function() {
+    document.getElementById('sestevek3').style.opacity = "1";}, 1250);
 
-function timer() {
-sekundeI = (sekunde % 60 > 9) ? sekunde % 60 : "0" + (sekunde % 60);
-minuteI = (Math.floor(sekunde / 60) > 9) ? Math.floor(sekunde / 60) : "0" + Math.floor(sekunde / 60);
-izpisTimer = minuteI + ":" + sekundeI;
-sekunde++;
-updatePointsAndTime(); 
+function animkocke1() {
+    setTimeout("document.getElementById('anim1').style.display = 'none'; document.getElementById('kocke1').style.display = 'inline-block';",1200);
 }
-
-function updatePointsAndTime() {
-    const pointsDiv = document.querySelector(".points");
-    pointsDiv.innerHTML = `<div style="margin-right: 5px;"><strong>POINTS:</strong> ${score}</div>
-                           <div><strong>TIME:</strong> ${izpisTimer}</div>`;
+function animkocke2() {
+    setTimeout("document.getElementById('anim2').style.display = 'none'; document.getElementById('kocke2').style.display = 'inline-block';",1200);
 }
-
-
-function collisionDetection() {
-    for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-            var b = bricks[c][r];
-            if (b.status == 1) {
-                if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                    dy = -dy;
-                    b.lives--; 
-                    if (b.lives <= 0) {
-                        b.status = 0;
-                    }
-                    score++;
-                    updatePointsAndTime(); 
-                    if (score == brickRowCount * brickColumnCount) {
-                        Swal.fire({
-                            title: "YOU WON!",
-                            icon: "success"
-                        });
-                        resetGame();
-                    }
-                }
-            }
-        }
-    }
+function animkocke3() {
+    setTimeout("document.getElementById('anim3').style.display = 'none'; document.getElementById('kocke3').style.display = 'inline-block';",1200);
 }
-
-function draw() {
-    if (!gameRunning) return;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    collisionDetection();
-    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-    }
-    if (y + dy < ballRadius) {
-        dy = -dy;
-    } else if (y + dy > canvas.height - ballRadius) {
-        if (x > paddleX && x < paddleX + paddleWidth) {
-            dy = -dy;
-        } else {
-            gameRunning = false;
-            Swal.fire({
-            title: "GAME OVER!",
-            icon: "warning"
-})
-            resetGame();
-            return;
-        }
-    }
-    if (rightPressed && paddleX < canvas.width - paddleWidth) {
-        paddleX += 7;
-    } else if (leftPressed && paddleX > 0) {
-        paddleX -= 7;
-    }
-    x += dx;
-    y += dy;
-    animationId = requestAnimationFrame(draw);
-}
-document.addEventListener("keydown", function(e) {
-    if (e.keyCode == 39) {
-        rightPressed = true;
-    } else if (e.keyCode == 37) {
-        leftPressed = true;
-    }
-});
-document.addEventListener("keyup", function(e) {
-    if (e.keyCode == 39) {
-        rightPressed = false;
-    } else if (e.keyCode == 37) {
-        leftPressed = false;
-    }
-});
+animkocke1();
+animkocke2();
+animkocke3();
 
 const infoBtn = document.getElementById("info");
 infoBtn.addEventListener("click", () => {
     Swal.fire({
         icon: "info",
-        title: "The Bricks",
+		iconColor: "#ffd700",
+		background: '#113263',
+		color: 'white',
+		confirmButtonColor: '#ffd700',
+        title: "GAMBLING ROOM",
         heightAuto: true,
-        footer: '<a target="_blank" href="https://github.com/rokmrhar/the-bricks">SEE MORE ABOUT THIS PROJECT</a>'
+		allowOutsideClick: false,
+		footer: '<a style="color: white" target="_blank" href="https://github.com/rokmrhar/gambling-room">OGLEJ SI "VEČ" O TEM PROJEKTU</a>',
     });
 });
-
-document.getElementById("start").addEventListener("click", startGame);
-document.getElementById("reset").addEventListener("click", resetGame);
-
-resetGame();
-
-window.onload = function () {
-Swal.fire({
+const navodilaBtn = document.getElementById("navodila");
+navodilaBtn.addEventListener("click", () => {
+    Swal.fire({
         icon: "info",
-        title: "Welcome",
-        html: 'Press <b>START</b> button to start the game. <br> Use <b>LEFT</b> and <b>RIGHT</b> key to move the paddle. <br> Each brick has 3 lives.',
+		iconColor: "#ffd700",
+		background: '#113263',
+		color: 'white',
+		confirmButtonColor: '#ffd700',
+        title: "NAVODILA",
         heightAuto: true,
+		html: 'Vnesi <b> VSA 3 IMENA </b>, izberi želeno število kock in iger in pritisni gumb <b> IGRAJ </b> za začetek igre',
+
     });
-}
+});
